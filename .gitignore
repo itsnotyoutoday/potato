@@ -5,3 +5,4 @@ potato.ini
 potato.custom
 potato.dev
 *.lnk
+build/
