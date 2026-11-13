@@ -1,7 +1,7 @@
 # The default skin, 'potato', for Potato MUSH Client
 
 # Check the packages required by the skin are available
-if { [catch {package require Tcl 8.5}] || [catch {package require Tk 8.5}] } {
+if { [catch {package require Tcl 8.5-}] || [catch {package require Tk 8.5-}] } {
 	return "";
 }
 
@@ -1004,12 +1004,12 @@ proc ::skin::potato::status {c} {
 			}
 			$widgets(toolbar,reconnect) configure -state normal
 			$widgets(toolbar,close) configure -state normal
-			set recontime [potato::connInfo $c autoreconnect,time]
-			if { $recontime == 0 || ![potato::connInfo $c autoreconnect] } {
+			set recontime [::potato::connInfo $c autoreconnect,time]
+			if { $recontime == 0 || ![::potato::connInfo $c autoreconnect] } {
 				$widgets(statusbar,connstatus,sub,msg) configure -text [::potato::T "Not Connected"] -image {}
 			} else {
 				$widgets(statusbar,connstatus,sub,msg) configure -image {} \
-					-text [::potato::T "Not Connected - Reconnect Every %s" [potato::timeFmt $recontime 0]]
+					-text [::potato::T "Not Connected - Reconnect Every %s" [::potato::timeFmt $recontime 0]]
 			}
 		} elseif { $cstatus == "connecting" } {
 			$widgets(toolbar,disconnect) configure -state normal;# cancel reconnect
@@ -1142,7 +1142,7 @@ proc ::skin::potato::worldBar {{c ""}} {
 	variable opts;
 
 	if { $c == "" } {
-		set c [potato::up]
+		set c [::potato::up]
 	}
 
 	if { $c == 0 || !$opts(worldbar) } {
@@ -1210,8 +1210,8 @@ proc ::skin::potato::show {c} {
 		$widgets(statusbar,connstatus,sub,msg) configure -text [::potato::T "Not Connected"] -image {}
 		$widgets(statusbar,worldname,label,prompt) configure -textvariable ""
 	} else {
-		$widgets(statusbar,worldname,label) configure -text "$c. [potato::connInfo $c connname]"
-		$widgets(statusbar,hostinfo,label) configure -text "[potato::connInfo $c host]:[potato::connInfo $c port]"
+		$widgets(statusbar,worldname,label) configure -text "$c. [::potato::connInfo $c connname]"
+		$widgets(statusbar,hostinfo,label) configure -text "[::potato::connInfo $c host]:[::potato::connInfo $c port]"
 		$widgets(statusbar,worldname,label,prompt) configure -textvariable ::potato::conn($c,prompt)
 	}
 

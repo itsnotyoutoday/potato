@@ -157,7 +157,7 @@ proc ::potato::manageWorldVersion {w version} {
 
 	return;
 
-};# potato::manageWorldVersion
+};# ::potato::manageWorldVersion
 
 #: proc ::potato::manageWorldVersionNew
 #: arg w world id
@@ -981,7 +981,7 @@ proc ::potato::mailWindowCleanup {c} {
 
 	return;
 
-};# potato::mailWindowCleanup
+};# ::potato::mailWindowCleanup
 
 #: proc ::potato::editMenuCXV
 #: arg menu Path of menu
@@ -1094,21 +1094,21 @@ proc ::potato::uploadWindowStart {c} {
 	pack [::ttk::frame $frame.options.empty] -side top -pady 3 -anchor nw
 	pack [::ttk::label $frame.options.empty.l -text [T "Ignore empty lines?"] -width 20 \
 		-underline 0 -anchor w -justify left] -side left -anchor nw -padx 3
-	pack [::ttk::checkbutton $frame.options.empty.cb -variable potato::conn($c,upload,ignoreEmpty) \
+	pack [::ttk::checkbutton $frame.options.empty.cb -variable ::potato::conn($c,upload,ignoreEmpty) \
 		-onvalue 1 -offvalue 0] -side left -padx 3
 	lappend bindings i $frame.options.empty.cb
 
 	pack [::ttk::frame $frame.options.history] -side top -pady 3 -anchor nw
 	pack [::ttk::label $frame.options.history.l -text [T "Add to History?"] -width 20 \
 		-underline 7 -anchor w -justify left] -side left -anchor nw -padx 3
-	pack [::ttk::checkbutton $frame.options.history.cb -variable potato::conn($c,upload,history) \
+	pack [::ttk::checkbutton $frame.options.history.cb -variable ::potato::conn($c,upload,history) \
 		-onvalue 1 -offvalue 0] -side left -padx 3
 	lappend bindings h $frame.options.history.cb
 
 	pack [::ttk::frame $frame.options.mpp] -side top -pady 3 -anchor nw
 	pack [::ttk::label $frame.options.mpp.l -text [T "MPP Formatted?"] -width 20 \
 		-underline 0 -anchor w -justify left] -side left -anchor nw -padx 3
-	pack [::ttk::checkbutton $frame.options.mpp.cb -variable potato::conn($c,upload,mpp) \
+	pack [::ttk::checkbutton $frame.options.mpp.cb -variable ::potato::conn($c,upload,mpp) \
 		-onvalue 1 -offvalue 0] -side left -padx 3
 	lappend bindings m $frame.options.mpp.cb
 
@@ -1123,9 +1123,9 @@ proc ::potato::uploadWindowStart {c} {
 	pack [::ttk::entry $frame.options.prefix.e -textvariable ::potato::conn($c,upload,prefix)] -side top -anchor nw -padx 3 -fill x
 
 	pack [::ttk::frame $frame.file] -side top -anchor center -fill x -padx 6 -pady 8
-	pack [entry $frame.file.e -textvariable potato::conn($c,upload,file) \
+	pack [entry $frame.file.e -textvariable ::potato::conn($c,upload,file) \
 		-disabledbackground white -state disabled -width 30 -cursor {}] -side left -expand 1 -fill x;#abc make me Tile!
-	pack [::ttk::button $frame.file.sel -command [list ::potato::selectFile potato::conn($c,upload,file) $win 0] \
+	pack [::ttk::button $frame.file.sel -command [list ::potato::selectFile ::potato::conn($c,upload,file) $win 0] \
 		-image ::potato::img::dotdotdot] -side left -padx 8
 
 
@@ -1312,9 +1312,9 @@ proc ::potato::uploadProgressWindow {c} {
 	pack [set frame [::ttk::frame $win.frame]] -side left -expand 1 -fill both -anchor nw
 	pack [::ttk::frame $frame.top] -side top -fill x -padx 6 -pady 10
 	pack [::ttk::label $frame.top.progress -text [T "Progress: "]] -side left
-	pack [::ttk::label $frame.top.count -textvariable potato::conn($c,upload,bytes)] -side left
+	pack [::ttk::label $frame.top.count -textvariable ::potato::conn($c,upload,bytes)] -side left
 	pack [::ttk::label $frame.top.of -text [T " of "]] -side left
-	pack [::ttk::label $frame.top.total -textvariable potato::conn($c,upload,fileSize)] -side left
+	pack [::ttk::label $frame.top.total -textvariable ::potato::conn($c,upload,fileSize)] -side left
 	pack [::ttk::label $frame.top.bytes -text [T " bytes"]] -side left
 
 	pack [::ttk::frame $frame.progress] -side top -fill x -padx 6 -pady 10
@@ -1450,31 +1450,31 @@ proc ::potato::logWindow {{c ""}} {
 		lappend spawns [lindex $x 0]
 	}
 	pack [::ttk::combobox $frame.top.buffer.cb -values $spawns \
-			-textvariable potato::conn($c,logDialog,buffer) -state readonly] -side top -anchor nw
+			-textvariable ::potato::conn($c,logDialog,buffer) -state readonly] -side top -anchor nw
 
 	pack [::ttk::labelframe $frame.top.options -text [T "Other Options"] -padding 2] -side left -anchor nw -padx 6
-	pack [::ttk::checkbutton $frame.top.options.future -variable potato::conn($c,logDialog,future) \
+	pack [::ttk::checkbutton $frame.top.options.future -variable ::potato::conn($c,logDialog,future) \
 		-onvalue 1 -offvalue 0 -text [T "Leave Log Open?"] -underline 10] -side top -anchor w
 	lappend bindings o $frame.top.options.future
-	pack [::ttk::checkbutton $frame.top.options.append -variable potato::conn($c,logDialog,append) \
+	pack [::ttk::checkbutton $frame.top.options.append -variable ::potato::conn($c,logDialog,append) \
 		-onvalue 1 -offvalue 0 -text [T "Append to File?"] -underline 0] -side top -anchor w
 	lappend bindings a $frame.top.options.append
-	pack [::ttk::checkbutton $frame.top.options.timestamps -variable potato::conn($c,logDialog,timestamps) \
+	pack [::ttk::checkbutton $frame.top.options.timestamps -variable ::potato::conn($c,logDialog,timestamps) \
 		-onvalue 1 -offvalue 0 -text [T "Show Timestamps?"] -underline 5] -side top -anchor w
 	lappend bindings t $frame.top.options.timestamps
-	pack [::ttk::checkbutton $frame.top.options.html -variable potato::conn($c,logDialog,html) \
+	pack [::ttk::checkbutton $frame.top.options.html -variable ::potato::conn($c,logDialog,html) \
 		-onvalue 1 -offvalue 0 -text [T "Log as HTML?"] -underline 7] -side top -anchor w
 	lappend bindings h $frame.top.options.html
-	pack [::ttk::checkbutton $frame.top.options.echo -variable potato::conn($c,logDialog,echo) \
+	pack [::ttk::checkbutton $frame.top.options.echo -variable ::potato::conn($c,logDialog,echo) \
 		-onvalue 1 -offvalue 0 -text [T "Log input?"] -underline 4] -side top -anchor w
 	lappend bindings i $frame.top.options.echo
 
-	#pack [::ttk::checkbutton $frame.top.options.wrap -variable potato::conn($c,logDialog,wrap) \
+	#pack [::ttk::checkbutton $frame.top.options.wrap -variable ::potato::conn($c,logDialog,wrap) \
 	#           -onvalue 1 -offvalue 0 -text [T "Wrap Lines?"] -underline 0] -side top -anchor w
 	#lappend bindings w $frame.top.options.wrap
 
 	pack [::ttk::frame $frame.file] -side top -anchor center -fill x -padx 6 -pady 4
-	pack [::ttk::entry $frame.file.e -textvariable potato::conn($c,logDialog,file) -width 30] -side left -expand 1 -fill x
+	pack [::ttk::entry $frame.file.e -textvariable ::potato::conn($c,logDialog,file) -width 30] -side left -expand 1 -fill x
 	$frame.file.e state readonly
 
 
@@ -1482,7 +1482,7 @@ proc ::potato::logWindow {{c ""}} {
 		[list "HTML Files" ".html"] \
 	]
 
-	pack [::ttk::button $frame.file.sel -command [list ::potato::selectFile potato::conn($c,logDialog,file) $win 1 $html] \
+	pack [::ttk::button $frame.file.sel -command [list ::potato::selectFile ::potato::conn($c,logDialog,file) $win 1 $html] \
 		-image ::potato::img::dotdotdot] -side left -padx 8
 	lappend bindings f $frame.file.sel
 
@@ -2710,7 +2710,7 @@ proc ::potato::connZeroFact {} {
 		"Potatoes were first eaten more than 6,000 years ago by indigenous people living in the Andes mountains of Peru." \
 		"In 1778 Prussia and Austria fought the Potato War in which each side tried to starve the other by consuming their potato crop." \
 		"Potatoes are the world's fourth food staple - after wheat, corn and rice." \
-		"The world’s largest potato weighed in at 18 pounds, 4 ounces according to the Guinness Book of World Records. That’s enough for 73 portions of medium fries at McDonalds." \
+		"The worldâ€™s largest potato weighed in at 18 pounds, 4 ounces according to the Guinness Book of World Records. Thatâ€™s enough for 73 portions of medium fries at McDonalds." \
 		"There are over 5,000 variety of Potato worldwide, not including MUSH clients." \
 	]
 
@@ -2777,7 +2777,7 @@ proc ::potato::connZeroClick {win x y} {
 			$win itemconfig $index -fill $world(0,ansi,link)
 			$win dtag hoverTag
 			$win config -cursor {}
-			potato::newConnectionDefault $id
+			::potato::newConnectionDefault $id
 			return;
 		}
 	}
@@ -3201,7 +3201,7 @@ proc ::potato::connectComplete {c} {
 	# Set encoding/translation to binary, otherwise Tcl will helpfully automatically translate
 	# \u00ff (y-umlaut) into char 255 (y-umlaut), and we can't distinguish between the unicode char
 	# and a telnet IAC. So, get data in binary format, and convert manually after telnet parsing.
-	fconfigure $id -translation binary -encoding binary -eof {} -blocking 0 -buffering none
+	fconfigure $id -translation binary -encoding iso8859-1 -eof {} -blocking 0 -buffering none
 
 	set peer [fconfigure $id -peername]
 	if { [lindex $peer 0] in [list "" [lindex $peer 1]] } {
@@ -3650,7 +3650,7 @@ proc ::potato::get_mushage {c} {
 		return;
 	}
 
-	set disc [catch {::potato::ioRead $conn($c,id) 10} text]
+	set disc [catch {::potato::ioRead $conn($c,id) 4096} text]
 	if { $disc } {
 		disconnect $c 0
 		boot_reconnect $c
@@ -4887,7 +4887,7 @@ proc ::potato::connList {} {
 
 	set retlist [list];
 	foreach c [connIDs] {
-		lappend retlist [list $c $world($conn($c,world),name) [potato::status $c]]
+		lappend retlist [list $c $world($conn($c,world),name) [::potato::status $c]]
 	}
 
 	return $retlist;
@@ -5680,13 +5680,13 @@ proc ::potato::newWorld {quick {hostAddr ""} {portNum ""}} {
 	pack $host -side top -fill x -anchor nw -padx 5 -pady 1
 	pack [::ttk::label $host.l -text [T "Host:"] -width 7 -justify left -anchor w] -side left -anchor nw
 	pack [::ttk::entry $host.e -textvariable ::potato::newWorld(host) -width 35] -side left -anchor nw -fill x
-	set potato::newWorld(host) $hostAddr
+	set ::potato::newWorld(host) $hostAddr
 
 	set port [::ttk::frame $frame.port]
 	pack $port -side top -fill x -anchor nw -padx 5 -pady 1
 	pack [::ttk::label $port.l -text [T "Port:"] -width 7 -justify left -anchor w] -side left -anchor nw
 	pack [::ttk::entry $port.e -textvariable ::potato::newWorld(port) -width 35] -side left -anchor nw -fill x
-	set potato::newWorld(port) $portNum
+	set ::potato::newWorld(port) $portNum
 
 	set btns [::ttk::frame $frame.btns]
 	pack $btns -side top -fill x -anchor n -pady 6
@@ -6142,7 +6142,7 @@ proc ::potato::grid_with_scrollbars {widget x y} {
 #: return nothing
 proc ::potato::center {win} {
 
-	update
+	update idletasks
 	if { ![winfo exists $win] } {
 		return;
 	}
@@ -6314,7 +6314,7 @@ proc ::potato::setClock {} {
 	variable misc;
 	variable conn;
 
-	after 1000 potato::setClock
+	after 1000 ::potato::setClock
 	set potato(clock) [clock format [set secs [clock seconds]] -format $misc(clockFormat)]
 	foreach x [array names conn -regexp {^[1-9][0-9]*,stats,formatted$}] {
 		scan $x %d,stats,formatted c
@@ -6683,13 +6683,13 @@ proc ::potato::main {} {
 		set path(startupCmds) [file join $path(homedir) potato.startup]
 		set path(i18n) [file join $path(homedir) i18n]
 	} else {
-		set path(world) [file join ~ .potato worlds]
-		set path(skins) [file join ~ .potato skins]
-		set path(userlib) [file join ~ .potato lib]
-		set path(preffile) [file join ~ .potato config]
-		set path(custom) [file join ~ .potato potato.custom]
-		set path(startupCmds) [file join ~ .potato potato.startup]
-		set path(i18n) [file join ~ .potato i18n]
+		set path(world) [file join [file home] .potato worlds]
+		set path(skins) [file join [file home] .potato skins]
+		set path(userlib) [file join [file home] .potato lib]
+		set path(preffile) [file join [file home] .potato config]
+		set path(custom) [file join [file home] .potato potato.custom]
+		set path(startupCmds) [file join [file home] .potato potato.startup]
+		set path(i18n) [file join [file home] .potato i18n]
 	}
 	set dev [file join $path(homedir) potato.dev]
 
@@ -8403,7 +8403,7 @@ proc ::potato::checkForUpdates {{background 0}} {
 	set labelfont [font actual [::ttk::style lookup TLabel -font]]
 	dict set labelfont -size [expr {round([dict get $labelfont -size] * 1.5)}]
 	pack [::ttk::label $top.l1 -text [T "You are currently running version:"] -font $labelfont -justify center] -side top
-	pack [::ttk::label $top.l2 -textvariable potato::potato(version) -font [concat $labelfont -weight bold] -justify center] -side top
+	pack [::ttk::label $top.l2 -textvariable ::potato::potato(version) -font [concat $labelfont -weight bold] -justify center] -side top
 	pack [::ttk::label $top.l3 -text [T "Checking for updates..."] -font $labelfont -justify center]
 
 	pack [set progress [::ttk::frame $frame.progress]] -side top -padx 10 -pady 10
@@ -9099,7 +9099,7 @@ proc ::potato::activeTextWidget {} {
 
 	return [::skin::$potato(skin)::activeTextWidget];
 
-};# potato::activeTextWidget
+};# ::potato::activeTextWidget
 
 #: proc ::potato::textWidgetName
 #: arg text text widget path
@@ -11615,7 +11615,7 @@ proc ::potato::parseTelnetAddress {addr} {
 #: arg addr the address we've been asked to connect to
 #: arg isWorld if 1, $addr is the name of a world to connect to, else it's a host and port. Defaults to 0
 #: desc $addr is an address we've been asked to connect to, either via DDE on Windows or on the command line.
-#: desc Attempt to do so, respecting the potato::misc(outsideRequestMethod) var
+#: desc Attempt to do so, respecting the ::potato::misc(outsideRequestMethod) var
 #: return nothing
 proc ::potato::handleOutsideRequest {src addr {isWorld 0}} {
 	variable world;
@@ -12334,7 +12334,7 @@ proc ::potato::tasksInit {} {
 		resendLastCmd,state connected \
 		toggleSpawn,name    [X "Toggle Spawn Windows"] \
 		toggleSpawn,cmd     [list ::potato::toggleSpawns] \
-		toggleSpawn,state   {[llength [potato::connInfo $c spawns]]} \
+		toggleSpawn,state   {[llength [::potato::connInfo $c spawns]]} \
 		scroll2Activity,name [X "&Scroll to Last Activity"] \
 		scroll2Activity,cmd [list ::potato::scrollToLastActivity] \
 		scroll2Activity,state notZero \
@@ -12846,7 +12846,7 @@ proc ffe {{c ""}} {
 	if { $c eq "" } {
 		set c [::potato::up]
 	}
-	fileevent $potato::conn($c,id) readable [list ::potato::get_mushage $c]
+	fileevent $::potato::conn($c,id) readable [list ::potato::get_mushage $c]
 
 };# ffe
 
@@ -12861,7 +12861,7 @@ proc winover {} {
 ##################################
 # Run it!
 
-if { [info exists ::potato::running] && $potato::running } {
+if { [info exists ::potato::running] && $::potato::running } {
 	return;
 }
 
@@ -12895,7 +12895,7 @@ proc parray {a args} {
 }
 
 if { $tcl_platform(platform) eq "windows" } {
-	parray potato::world -regexp {^[1-9][0-9]*,name$}
+	parray ::potato::world -regexp {^[1-9][0-9]*,name$}
 	if { !$::potato::potato(wrapped) && [info exists ::potato::systray(mainico)] && [file exists $::potato::systray(mainico)] } {
 		wm iconbitmap . -default $::potato::systray(mainico)
 	}

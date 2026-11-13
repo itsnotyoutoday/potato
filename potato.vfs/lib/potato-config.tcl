@@ -346,7 +346,7 @@ proc ::potato::managePrefVersion {version worldversion} {
 
 	return;
 
-};# potato::managePrefVersion
+};# ::potato::managePrefVersion
 
 #: proc ::potato::configureWorld
 #: arg w world id, defaults to ""
@@ -416,7 +416,7 @@ proc ::potato::configureWorld {{w ""} {autosave 0}} {
 		-command [list destroy $win]] -side left -padx 25 -anchor n
 
 	array set worldconfig [array get world $w,*]
-	array unset worldconfig $w,events* ;# handled by potato::eventConfig
+	array unset worldconfig $w,events* ;# handled by ::potato::eventConfig
 
 	# Basics page
 	set frame [configureFrame $canvas [T "Basic Settings"]]
@@ -569,8 +569,8 @@ proc ::potato::configureWorld {{w ""} {autosave 0}} {
 	pack [set sub [::ttk::frame $frame.encStart]] -side top -pady 5 -anchor nw
 	pack [::ttk::label $sub.label -text [T "Starting Encoding:"] -width 35 -justify left -anchor w] -side left -padx 3
 	pack [::ttk::combobox $sub.cb -textvariable ::potato::worldconfig($w,encoding,start) -width 20 -state readonly] -side left -padx 3
-	if { $potato::worldconfig($w,encoding,start) ni [encoding names] } {
-		$sub.cb config -values [lsort -dictionary [concat [encoding names] $potato::worldconfig($w,encoding,start)]]
+	if { $::potato::worldconfig($w,encoding,start) ni [encoding names] } {
+		$sub.cb config -values [lsort -dictionary [concat [encoding names] $::potato::worldconfig($w,encoding,start)]]
 	} else {
 		$sub.cb config -values [lsort -dictionary [encoding names]]
 	}
@@ -613,8 +613,8 @@ proc ::potato::configureWorld {{w ""} {autosave 0}} {
 	pack [set sub [::ttk::frame $frame.encStart]] -side top -pady 5 -anchor nw
 	pack [::ttk::label $sub.label -text [T "Starting Encoding:"] -width 35 -justify left -anchor w] -side left -padx 3
 	pack [::ttk::combobox $sub.cb -textvariable ::potato::worldconfig($w,encoding,start) -width 20 -state readonly] -side left -padx 3
-	if { $potato::worldconfig($w,encoding,start) ni [encoding names] } {
-		$sub.cb config -values [lsort -dictionary [concat [encoding names] $potato::worldconfig($w,encoding,start)]]
+	if { $::potato::worldconfig($w,encoding,start) ni [encoding names] } {
+		$sub.cb config -values [lsort -dictionary [concat [encoding names] $::potato::worldconfig($w,encoding,start)]]
 	} else {
 		$sub.cb config -values [lsort -dictionary [encoding names]]
 	}
@@ -664,10 +664,10 @@ proc ::potato::configureWorld {{w ""} {autosave 0}} {
 	pack [set sub [::ttk::frame $frame.txt]] -side top -pady 5 -expand 1 -fill x
 	pack [set outText [text $sub.out -width 20 -height 10 -wrap word \
 		-background $worldconfig($w,top,bg) \
-		-foreground [potato::reverseColour $worldconfig($w,top,bg)] \
+		-foreground [::potato::reverseColour $worldconfig($w,top,bg)] \
 		-cursor {} -font $worldconfig($w,top,font)]] -side top -expand 1 -fill x
 	pack [set inText [text $sub.in -width 20 -height 3 -wrap word -background $worldconfig($w,bottom,bg) \
-		-foreground [potato::reverseColour $worldconfig($w,bottom,bg)] \
+		-foreground [::potato::reverseColour $worldconfig($w,bottom,bg)] \
 		-cursor {} -font $worldconfig($w,bottom,font)]] -side top -expand 1 -fill x
 	bindtags $outText [list $outText $win all]
 	bindtags $inText [list $inText $win all]
@@ -710,31 +710,31 @@ proc ::potato::configureWorld {{w ""} {autosave 0}} {
 	pack [set sub [::ttk::frame $frame.fonts]] -side top -pady 5 -expand 1 -fill x
 	pack [::ttk::frame $sub.output] -side left -expand 1 -fill x
 	pack [::ttk::label $sub.output.l -text [T "Change Output Font"] -width 23 -justify left -anchor w] -side left -anchor center
-	pack [::ttk::button $sub.output.b -image ::potato::img::dotdotdot -command [list potato::configureFont $w $win $outText top]] -side left -anchor center
+	pack [::ttk::button $sub.output.b -image ::potato::img::dotdotdot -command [list ::potato::configureFont $w $win $outText top]] -side left -anchor center
 	pack [::ttk::frame $sub.input] -side left -expand 1 -fill x
 	pack [::ttk::label $sub.input.l -text [T "Change Input Font"] -width 23 -justify left -anchor w] -side left -anchor center
-	pack [::ttk::button $sub.input.b -image ::potato::img::dotdotdot -command [list potato::configureFont $w $win $inText bottom]] -side left -anchor center
+	pack [::ttk::button $sub.input.b -image ::potato::img::dotdotdot -command [list ::potato::configureFont $w $win $inText bottom]] -side left -anchor center
 
 	pack [set sub [::ttk::frame $frame.boxes1]] -side top -pady 5 -expand 1 -fill x
 	pack [::ttk::frame $sub.left] -side left -expand 1 -fill x
 	pack [::ttk::label $sub.left.l -text [T "Allow ANSI Colours?"] -width 23 -anchor w -justify left] -side left -anchor w
-	pack [::ttk::checkbutton $sub.left.c -variable potato::worldconfig($w,ansi,colours) -onvalue 1 -offvalue 0] -side left -anchor w
+	pack [::ttk::checkbutton $sub.left.c -variable ::potato::worldconfig($w,ansi,colours) -onvalue 1 -offvalue 0] -side left -anchor w
 	pack [::ttk::frame $sub.right] -side left -expand 1 -fill x
 	pack [::ttk::label $sub.right.l -text [T "Allow ANSI Underline?"] -width 23 -anchor w -justify left] -side left -anchor w
-	pack [::ttk::checkbutton $sub.right.c -variable potato::worldconfig($w,ansi,underline) -onvalue 1 -offvalue 0] -side left -anchor w
+	pack [::ttk::checkbutton $sub.right.c -variable ::potato::worldconfig($w,ansi,underline) -onvalue 1 -offvalue 0] -side left -anchor w
 
 	pack [set sub [::ttk::frame $frame.boxes2]] -side top -pady 5 -expand 1 -fill x
 	pack [::ttk::frame $sub.left] -side left -expand 1 -fill x
 	pack [::ttk::label $sub.left.l -text [T "Allow ANSI Flash?"] -width 23 -anchor w -justify left] -side left -anchor w
-	pack [::ttk::checkbutton $sub.left.c -variable potato::worldconfig($w,ansi,flash) -onvalue 1 -offvalue 0] -side left -anchor w
+	pack [::ttk::checkbutton $sub.left.c -variable ::potato::worldconfig($w,ansi,flash) -onvalue 1 -offvalue 0] -side left -anchor w
 	pack [::ttk::frame $sub.right] -side left -expand 1 -fill x
 	pack [::ttk::label $sub.right.l -text [T "Force ANSI Normal?"] -width 23 -anchor w -justify left] -side left -anchor w
-	pack [::ttk::checkbutton $sub.right.c -variable potato::worldconfig($w,ansi,force-normal) -onvalue 1 -offvalue 0] -side left -anchor w
+	pack [::ttk::checkbutton $sub.right.c -variable ::potato::worldconfig($w,ansi,force-normal) -onvalue 1 -offvalue 0] -side left -anchor w
 
 	pack [set sub [::ttk::frame $frame.boxes3]] -side top -pady 5 -expand 1 -fill x
 	pack [::ttk::frame $sub.left] -side left -expand 1 -fill x
 	pack [::ttk::label $sub.left.l -text [T "Show XTERM Colours?"] -width 23 -anchor w -justify left] -side left -anchor w
-	pack [::ttk::checkbutton $sub.left.c -variable potato::worldconfig($w,ansi,xterm) -onvalue 1 -offvalue 0] -side left -anchor w
+	pack [::ttk::checkbutton $sub.left.c -variable ::potato::worldconfig($w,ansi,xterm) -onvalue 1 -offvalue 0] -side left -anchor w
 
 
 	# Display: Misc
@@ -755,27 +755,27 @@ proc ::potato::configureWorld {{w ""} {autosave 0}} {
 
 	pack [set sub [::ttk::frame $frame.echo]] -side top -pady 5 -anchor nw
 	pack [::ttk::label $sub.l -text [T "Echo Sent Commands?"] -width 20 -anchor w -justify left] -side left
-	pack [::ttk::checkbutton $sub.cb -variable potato::worldconfig($w,echo) -onvalue 1 -offvalue 0] -side left
+	pack [::ttk::checkbutton $sub.cb -variable ::potato::worldconfig($w,echo) -onvalue 1 -offvalue 0] -side left
 
 	pack [set sub [::ttk::frame $frame.echoTimers]] -side top -pady 5 -anchor nw
 	pack [::ttk::label $sub.l -text [T "Echo Timer Commands?"] -width 20 -anchor w -justify left] -side left
-	pack [::ttk::checkbutton $sub.cb -variable potato::worldconfig($w,echo,timers) -onvalue 1 -offvalue 0] -side left
+	pack [::ttk::checkbutton $sub.cb -variable ::potato::worldconfig($w,echo,timers) -onvalue 1 -offvalue 0] -side left
 
 	pack [set sub [::ttk::frame $frame.empty]] -side top -pady 5 -anchor nw
 	pack [::ttk::label $sub.l -text [T "Ignore Empty Lines?"] -width 20 -anchor w -justify left] -side left
-	pack [::ttk::checkbutton $sub.cb -variable potato::worldconfig($w,ignoreEmpty) -onvalue 1 -offvalue 0] -side left
+	pack [::ttk::checkbutton $sub.cb -variable ::potato::worldconfig($w,ignoreEmpty) -onvalue 1 -offvalue 0] -side left
 
 	pack [set sub [::ttk::frame $frame.spawnSys]] -side top -pady 5 -anchor nw
 	pack [::ttk::label $sub.l -text [T "Spawn Sys Messages?"] -width 20 -anchor w -justify left] -side left
-	pack [::ttk::checkbutton $sub.cb -variable potato::worldconfig($w,spawnSystem) -onvalue 1 -offvalue 0] -side left
+	pack [::ttk::checkbutton $sub.cb -variable ::potato::worldconfig($w,spawnSystem) -onvalue 1 -offvalue 0] -side left
 
 	pack [set sub [::ttk::frame $frame.inputWindows]] -side top -pady 5 -anchor nw
 	pack [::ttk::label $sub.l -text [T "Two Input Windows?"] -width 20 -anchor w -justify left] -side left
-	pack [::ttk::checkbutton $sub.cb -variable potato::worldconfig($w,twoInputWindows) -onvalue 1 -offvalue 0] -side left
+	pack [::ttk::checkbutton $sub.cb -variable ::potato::worldconfig($w,twoInputWindows) -onvalue 1 -offvalue 0] -side left
 
 	pack [set sub [::ttk::frame $frame.nbsp]] -side top -pady 5 -anchor nw
 	pack [::ttk::label $sub.l -text [T "Convert NBSPs?"] -width 20 -anchor w -justify left] -side left
-	pack [::ttk::checkbutton $sub.cb -variable potato::worldconfig($w,convertNonBreakingSpaces) -onvalue 1 -offvalue 0] -side left
+	pack [::ttk::checkbutton $sub.cb -variable ::potato::worldconfig($w,convertNonBreakingSpaces) -onvalue 1 -offvalue 0] -side left
 
 	# Activity Settings
 	set frame [configureFrame $canvas [T "Activity Settings"]]
@@ -810,7 +810,7 @@ proc ::potato::configureWorld {{w ""} {autosave 0}} {
 	pack [set sub [::ttk::frame $frame.output]] -side top -pady 5 -anchor nw
 	pack [::ttk::frame $sub.output] -side left -anchor nw
 	pack [::ttk::label $sub.output.l -text [T "Limit Output Lines?"] -width 20 -anchor w -justify left] -side left
-	pack [::ttk::checkbutton $sub.output.cb -variable potato::worldconfig($w,outputLimit,on) -onvalue 1 -offvalue 0] -side left
+	pack [::ttk::checkbutton $sub.output.cb -variable ::potato::worldconfig($w,outputLimit,on) -onvalue 1 -offvalue 0] -side left
 	pack [::ttk::frame $sub.output-to] -padx 5 -side left
 	pack [::ttk::label $sub.output-to.l -text [T "Limit To:"] -width 5] -side left
 	pack [pspinbox $sub.output-to.spin -textvariable ::potato::worldconfig($w,outputLimit,to) -from 0 -to 5000 \
@@ -819,7 +819,7 @@ proc ::potato::configureWorld {{w ""} {autosave 0}} {
 	pack [set sub [::ttk::frame $frame.spawn]] -side top -pady 5 -anchor nw
 	pack [::ttk::frame $sub.spawn] -side left -anchor nw
 	pack [::ttk::label $sub.spawn.l -text [T "Limit Spawn Lines?"] -width 20 -anchor w -justify left] -side left
-	pack [::ttk::checkbutton $sub.spawn.cb -variable potato::worldconfig($w,spawnLimit,on) -onvalue 1 -offvalue 0] -side left
+	pack [::ttk::checkbutton $sub.spawn.cb -variable ::potato::worldconfig($w,spawnLimit,on) -onvalue 1 -offvalue 0] -side left
 	pack [::ttk::frame $sub.spawn-to] -padx 5 -side left
 	pack [::ttk::label $sub.spawn-to.l -text [T "Limit To:"] -width 5] -side left
 	pack [pspinbox $sub.spawn-to.spin -textvariable ::potato::worldconfig($w,spawnLimit,to) -from 0 -to 5000 \
@@ -828,7 +828,7 @@ proc ::potato::configureWorld {{w ""} {autosave 0}} {
 	pack [set sub [::ttk::frame $frame.input]] -side top -pady 5 -anchor nw
 	pack [::ttk::frame $sub.input] -side left -anchor nw
 	pack [::ttk::label $sub.input.l -text [T "Limit Input Lines?"] -width 20 -anchor w -justify left] -side left
-	pack [::ttk::checkbutton $sub.input.cb -variable potato::worldconfig($w,inputLimit,on) -onvalue 1 -offvalue 0] -side left
+	pack [::ttk::checkbutton $sub.input.cb -variable ::potato::worldconfig($w,inputLimit,on) -onvalue 1 -offvalue 0] -side left
 	pack [::ttk::frame $sub.input-to] -padx 5 -side left
 	pack [::ttk::label $sub.input-to.l -text [T "Limit To:"] -width 5] -side left
 	pack [pspinbox $sub.input-to.spin -textvariable ::potato::worldconfig($w,inputLimit,to) -from 0 -to 5000 \
@@ -897,7 +897,7 @@ proc ::potato::configureWorld {{w ""} {autosave 0}} {
 		set worldconfig($w,timer,$timerId,count) $world($w,timer,$timerId,count)
 		set worldconfig($w,timer,$timerId,continuous) $world($w,timer,$timerId,continuous)
 		set worldconfig($w,timer,$timerId,enabled) $world($w,timer,$timerId,enabled)
-		potato::configureTimerShowRow $w $timerId
+		::potato::configureTimerShowRow $w $timerId
 	}
 
 	# Notes
@@ -970,61 +970,61 @@ proc ::potato::configureWorld {{w ""} {autosave 0}} {
 
 		pack [set sub [::ttk::frame $frame.browser]] -side top -pady 5 -anchor nw
 		pack [::ttk::label $sub.l -text [T "Browser Command:"] -width $lW -anchor w -justify left] -side left
-		pack [::ttk::entry $sub.e -textvariable potato::worldconfig(MISC,browserCmd) -width 25] -side left
-		set potato::worldconfig(MISC,browserCmd) $misc(browserCmd)
+		pack [::ttk::entry $sub.e -textvariable ::potato::worldconfig(MISC,browserCmd) -width 25] -side left
+		set ::potato::worldconfig(MISC,browserCmd) $misc(browserCmd)
 
 		pack [set sub [::ttk::frame $frame.aspell]] -side top -pady 5 -anchor nw
 		pack [::ttk::label $sub.l -text [T "ASpell executable:"] -width $lW -anchor w -justify left] -side left
-		pack [::ttk::entry $sub.e -textvariable potato::worldconfig(MISC,aspell) -width 25] -side left
-		set potato::worldconfig(MISC,aspell) $misc(aspell)
+		pack [::ttk::entry $sub.e -textvariable ::potato::worldconfig(MISC,aspell) -width 25] -side left
+		set ::potato::worldconfig(MISC,aspell) $misc(aspell)
 
 		pack [set sub [::ttk::frame $frame.clock]] -side top -pady 5 -anchor nw
 		pack [::ttk::label $sub.l -text [T "Clock Format:"] -width $lW -anchor w -justify left] -side left
-		pack [::ttk::entry $sub.e -textvariable potato::worldconfig(MISC,clockFormat) -width 25] -side left
-		set potato::worldconfig(MISC,clockFormat) $misc(clockFormat)
+		pack [::ttk::entry $sub.e -textvariable ::potato::worldconfig(MISC,clockFormat) -width 25] -side left
+		set ::potato::worldconfig(MISC,clockFormat) $misc(clockFormat)
 
 		pack [set sub [::ttk::frame $frame.sysTray]] -side top -pady 5 -anchor nw
 		pack [::ttk::label $sub.l -text [T "Show SysTray Icon?"] -width $lW -anchor w -justify left] -side left
 		pack [::ttk::checkbutton $sub.c -variable ::potato::worldconfig(MISC,showSysTray) \
 			-onvalue 1 -offvalue 0] -side left
-		set potato::worldconfig(MISC,showSysTray) $misc(showSysTray)
+		set ::potato::worldconfig(MISC,showSysTray) $misc(showSysTray)
 
 		pack [set sub [::ttk::frame $frame.startMaximized]] -side top -pady 5 -anchor nw
 		pack [::ttk::label $sub.l -text [T "Start Maximized?"] -width $lW -anchor w -justify left] -side left
 		pack [::ttk::checkbutton $sub.c -variable ::potato::worldconfig(MISC,startMaximized) \
 			-onvalue 1 -offvalue 0] -side left
-		set potato::worldconfig(MISC,startMaximized) $misc(startMaximized)
+		set ::potato::worldconfig(MISC,startMaximized) $misc(startMaximized)
 
 		pack [set sub [::ttk::frame $frame.minToTray]] -side top -pady 5 -anchor nw
 		pack [::ttk::label $sub.l -text [T "Minimize to SysTray?"] -width $lW -anchor w -justify left] -side left
 		pack [::ttk::checkbutton $sub.c -variable ::potato::worldconfig(MISC,minToTray) \
 			-onvalue 1 -offvalue 0] -side left
-		set potato::worldconfig(MISC,minToTray) $misc(minToTray)
+		set ::potato::worldconfig(MISC,minToTray) $misc(minToTray)
 
 		pack [set sub [::ttk::frame $frame.confirmExit]] -side top -pady 5 -anchor nw
 		pack [::ttk::label $sub.l -text [T "Confirm Exit?"] -width $lW -anchor w -justify left] -side left
 		pack [::ttk::checkbutton $sub.c -variable ::potato::worldconfig(MISC,confirmExit) \
 			-onvalue 1 -offvalue 0] -side left
-		set potato::worldconfig(MISC,confirmExit) $misc(confirmExit)
+		set ::potato::worldconfig(MISC,confirmExit) $misc(confirmExit)
 
 		pack [set sub [::ttk::frame $frame.partialName]] -side top -pady 5 -anchor nw
 		pack [::ttk::label $sub.l -text [T "Allow Partial Names?"] -width $lW -anchor w -justify left] -side left
 		pack [::ttk::checkbutton $sub.c -variable ::potato::worldconfig(MISC,partialWorldMatch) \
 			-onvalue 1 -offvalue 0] -side left
-		set potato::worldconfig(MISC,partialWorldMatch) $misc(partialWorldMatch)
+		set ::potato::worldconfig(MISC,partialWorldMatch) $misc(partialWorldMatch)
 
 		pack [set sub [::ttk::frame $frame.toggleShowMain]] -side top -pady 5 -anchor nw
 		pack [::ttk::label $sub.l -text [T "Toggle to Main Window?"] -width $lW -anchor w -justify left] -side left
 		pack [::ttk::checkbutton $sub.c -variable ::potato::worldconfig(MISC,toggleShowMainWindow) \
 			-onvalue 1 -offvalue 0] -side left
-		set potato::worldconfig(MISC,toggleShowMainWindow) $misc(toggleShowMainWindow)
+		set ::potato::worldconfig(MISC,toggleShowMainWindow) $misc(toggleShowMainWindow)
 
 		pack [set sub [::ttk::frame $frame.externalRequest]] -side top -pady 5 -anchor nw
 		pack [::ttk::label $sub.l -text [T "External Requests:"] -width $lW -anchor w -justify left] -side left
 		pack [::ttk::combobox $sub.cb -textvariable ::potato::worldconfig(MISC,outsideRequestMethod) \
 			-values [list "Quick Connect" "Use World Settings" "Prompt"] -width 20 -state readonly] \
 			-side left -padx 3
-		set potato::worldconfig(MISC,outsideRequestMethod) \
+		set ::potato::worldconfig(MISC,outsideRequestMethod) \
 			[lindex [list "Quick Connect" "Use World Settings" "Prompt"] $misc(outsideRequestMethod)]
 
 		set temp [array names tinyurl *,field]
@@ -1038,7 +1038,7 @@ proc ::potato::configureWorld {{w ""} {autosave 0}} {
 		pack [::ttk::combobox $sub.cb -textvariable ::potato::worldconfig(MISC,tinyurlProvider) \
 			-values $tinyurls -width 20 -state readonly] \
 			-side left -padx 3
-		set potato::worldconfig(MISC,tinyurlProvider) $misc(tinyurlProvider)
+		set ::potato::worldconfig(MISC,tinyurlProvider) $misc(tinyurlProvider)
 
 		unset tinyurls
 
@@ -1047,38 +1047,38 @@ proc ::potato::configureWorld {{w ""} {autosave 0}} {
 			pack [::ttk::label $sub.l -text [T "Widget Theme:"] -width $lW -anchor w -justify left] -side left
 			pack [::ttk::combobox $sub.cb -textvariable ::potato::worldconfig(MISC,tileTheme) \
 				-values $styles -width 20 -state readonly] -side left -padx 3
-			set potato::worldconfig(MISC,tileTheme) $misc(tileTheme)
+			set ::potato::worldconfig(MISC,tileTheme) $misc(tileTheme)
 		}
 
 		pack [set sub [::ttk::frame $frame.autoConnect]] -side top -pady 5 -anchor nw
 		pack [::ttk::label $sub.l -text [T "Allow Auto-Connects?"] -width $lW -anchor w -justify left] -side left
 		pack [::ttk::checkbutton $sub.c -variable ::potato::worldconfig(MISC,autoConnect) \
 			-onvalue 1 -offvalue 0] -side left
-		set potato::worldconfig(MISC,autoConnect) $misc(autoConnect)
+		set ::potato::worldconfig(MISC,autoConnect) $misc(autoConnect)
 
 		pack [set sub [::ttk::frame $frame.checkForUpdates]] -side top -pady 5 -anchor nw
 		pack [::ttk::label $sub.l -text [T "Check for Updates on Startup?"] -width $lW -anchor w -justify left] -side left
 		pack [::ttk::checkbutton $sub.c -variable ::potato::worldconfig(MISC,checkForUpdates) \
 			-onvalue 1 -offvalue 0] -side left
-		set potato::worldconfig(MISC,checkForUpdates) $misc(checkForUpdates)
+		set ::potato::worldconfig(MISC,checkForUpdates) $misc(checkForUpdates)
 
 		pack [set sub [::ttk::frame $frame.selectToCopy]] -side top -pady 5 -anchor nw
 		pack [::ttk::label $sub.l -text [T "Select to Copy?"] -width $lW -anchor w -justify left] -side left
 		pack [::ttk::checkbutton $sub.c -variable ::potato::worldconfig(MISC,selectToCopy) \
 			-onvalue 1 -offvalue 0] -side left
-		set potato::worldconfig(MISC,selectToCopy) $misc(selectToCopy)
+		set ::potato::worldconfig(MISC,selectToCopy) $misc(selectToCopy)
 
 		pack [set sub [::ttk::frame $frame.connZeroInputWindows]] -side top -pady 5 -anchor nw
 		pack [::ttk::label $sub.l -text [T "Show Input Wins on Startup?"] -width $lW -anchor w -justify left] -side left
 		pack [::ttk::checkbutton $sub.c -variable ::potato::worldconfig(MISC,connZeroInputWindows) \
 			-onvalue 1 -offvalue 0] -side left
-		set potato::worldconfig(MISC,connZeroInputWindows) $misc(connZeroInputWindows)
+		set ::potato::worldconfig(MISC,connZeroInputWindows) $misc(connZeroInputWindows)
 
 		pack [set sub [::ttk::frame $frame.showTimestamps]] -side top -pady 5 -anchor nw
 		pack [::ttk::label $sub.l -text [T "Show Message Timestamps?"] -width $lW -anchor w -justify left] -side left
 		pack [::ttk::checkbutton $sub.c -variable ::potato::worldconfig(MISC,showTimestamps) \
 			-onvalue 1 -offvalue 0] -side left
-		set potato::worldconfig(MISC,showTimestamps) $misc(showTimestamps)
+		set ::potato::worldconfig(MISC,showTimestamps) $misc(showTimestamps)
 
 
 	}
@@ -1403,7 +1403,7 @@ proc ::potato::configureWorldCharsState {w {state ""}} {
 proc ::potato::configureWorldCancel {w win} {
 	variable worldconfig;
 
-	array unset potato::worldconfig $w,*
+	array unset ::potato::worldconfig $w,*
 	foreach x [lsearch -inline -glob [winfo children .] "${win}_subToplevel_*"] {
 		destroy $x
 	}
@@ -1520,7 +1520,7 @@ proc ::potato::configureTimerAddEdit {w add win} {
 	pack [::ttk::label $frame.delay.l1 -text [T "After connecting, wait"]] -side left -anchor w
 	pack [pspinbox $frame.delay.sb -from 0 -to 18000 -increment 1 -width 5 -justify right -validate key \
 		-validatecommand {string is integer %P} \
-		-textvariable potato::worldconfig($w,timer,ae,delay)] -side left -anchor w -padx 5
+		-textvariable ::potato::worldconfig($w,timer,ae,delay)] -side left -anchor w -padx 5
 	pack [::ttk::label $frame.delay.l2 -text [T "seconds"]] -side left -anchor w
 
 	pack [::ttk::frame $frame.cmds] {*}$styles -expand 1 -fill both
@@ -1534,7 +1534,7 @@ proc ::potato::configureTimerAddEdit {w add win} {
 	pack [::ttk::label $frame.every.l1 -text [T "And repeat every"]] -side left -anchor w
 	pack [pspinbox $frame.every.sb -from 0 -to 18000 -increment 1 -width 5 -justify right \
 		-validate key -validatecommand {string is integer %P} \
-		-textvariable potato::worldconfig($w,timer,ae,every)] -side left -anchor w -padx 5
+		-textvariable ::potato::worldconfig($w,timer,ae,every)] -side left -anchor w -padx 5
 	pack [::ttk::label $frame.every.l2 -text [T "seconds"]] -side left -anchor w
 
 	pack [::ttk::frame $frame.howmany] {*}$styles
@@ -1549,7 +1549,7 @@ proc ::potato::configureTimerAddEdit {w add win} {
 		-text [T "Exactly"]] -side left -anchor w
 	pack [pspinbox $frame.howmany.count.sb -from 0 -to 10000 -increment 1 -width 5 -justify right \
 		-validate key -validatecommand {string is integer %P} \
-		-textvariable potato::worldconfig($w,timer,ae,count)] \
+		-textvariable ::potato::worldconfig($w,timer,ae,count)] \
 		-side left -anchor w -padx 5
 	pack [::ttk::label $frame.howmany.count.l2 -text [T "Times"]] -side left -anchor w
 
@@ -1563,12 +1563,12 @@ proc ::potato::configureTimerAddEdit {w add win} {
 	pack [::ttk::frame $frame.buttons] {*}$styles -fill x -pady 10
 	pack [::ttk::frame $frame.buttons.ok] -side left -expand 1 -fill x
 	pack [::ttk::button $frame.buttons.ok.btn -text [T "OK"] -width 8 -default active \
-		-command [list potato::configureTimerSave $w $text]] -side right -padx 8 -anchor e
+		-command [list ::potato::configureTimerSave $w $text]] -side right -padx 8 -anchor e
 	pack [::ttk::frame $frame.buttons.cancel] -side left -expand 1 -fill x
 	pack [::ttk::button $frame.buttons.cancel.btn -text [T "Cancel"] -width 8 -command [list destroy $win]] -side left -padx 8 -anchor w
 
 	bind $win <Escape> [list $frame.buttons.cancel.btn invoke]
-	bind $win <Destroy> [list array unset potato::worldconfig $w,timer,ae,*]
+	bind $win <Destroy> [list array unset ::potato::worldconfig $w,timer,ae,*]
 
 	update idletasks
 	center $win
@@ -1612,7 +1612,7 @@ proc ::potato::configureTimerSave {w text} {
 		set worldconfig($w,timer,$timerId,$x) $worldconfig($w,timer,ae,$x)
 	}
 	destroy [winfo toplevel $text]
-	potato::configureTimerShowRow $w $timerId
+	::potato::configureTimerShowRow $w $timerId
 
 	return;
 
@@ -1967,7 +1967,7 @@ proc ::potato::configureWorldCommit {w win} {
 		set world($w,charDefault) ""
 	}
 
-	# A <Destroy> binding on $win triggers potato::configureWorldCancel, which unsets vars, destroys configure pop-ups, etc
+	# A <Destroy> binding on $win triggers ::potato::configureWorldCancel, which unsets vars, destroys configure pop-ups, etc
 	destroy $win
 
 	# Validate the spinbox values. Note: these maxes are hard-coded into spinbox widgets above,

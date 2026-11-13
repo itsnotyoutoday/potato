@@ -29,7 +29,7 @@ proc ::font::choose {parent win {defaultFont "TkFixedFont"} {title ""}} {
 	variable S
 
 	if { [winfo exists $win] } {
-		potato::reshowWindow $win
+		::potato::reshowWindow $win
 		return;
 	}
 	if { $title eq "" } {
@@ -113,7 +113,7 @@ proc ::font::choose {parent win {defaultFont "TkFixedFont"} {title ""}} {
 	trace variable ::font::S($win,font) w [list ::font::tracer $win]
 
 	update idletasks
-	potato::center $win
+	::potato::center $win
 	wm deiconify $win
 	raise $win
 	focus $win

@@ -1,9 +1,12 @@
 #!/bin/bash
-# Build Potato.app for macOS. Requires Tcl/Tk 8.6:  brew install tcl-tk@8
+# Build Potato.app for macOS (native arm64/x86_64 via Homebrew).
+# Requires modern Tcl/Tk 9 and TLS:  brew install tcl-tk tcltls
 set -e
 cd "$(dirname "$0")"
-WISH="${WISH:-$(brew --prefix tcl-tk@8 2>/dev/null)/bin/wish8.6}"
-[ -x "$WISH" ] || { echo "wish8.6 not found; run: brew install tcl-tk@8"; exit 1; }
+TK="$(brew --prefix tcl-tk)"; TLS="$(brew --prefix tcltls)"
+WISH="${WISH:-$TK/bin/wish}"
+[ -x "$WISH" ] || { echo "wish not found; run: brew install tcl-tk tcltls"; exit 1; }
+[ -d "$TLS/lib" ] || { echo "tcltls not found; run: brew install tcltls"; exit 1; }
 APP=build/Potato.app
 rm -rf "$APP"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
@@ -26,6 +29,7 @@ PL
 cat > "$APP/Contents/MacOS/Potato" <<LA
 #!/bin/bash
 D="\$(cd "\$(dirname "\$0")/../Resources" && pwd)"
+export TCLLIBPATH="$TLS/lib"
 exec "$WISH" "\$D/potato.vfs/main.tcl" "\$@"
 LA
 chmod +x "$APP/Contents/MacOS/Potato"

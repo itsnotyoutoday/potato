@@ -950,7 +950,7 @@
 		newConnection [addNewWorld "$host:$port" $host $port 1]
 	} else {
 		# Pop up the "quick connect" dialog.
-		potato::newWorld 1
+		::potato::newWorld 1
 	}
 
 	return [list 1];

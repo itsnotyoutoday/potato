@@ -9,9 +9,11 @@ Please see [the wiki](https://github.com/potatomushclient/potato/wiki) for more 
 
 ## macOS (osx branch)
 
+Runs natively (Apple Silicon or Intel) on modern Tcl/Tk 9 with Homebrew's `tcltls`; no bundled prebuilt binaries.
+
 ```
-brew install tcl-tk@8
+brew install tcl-tk tcltls
 ./build-osx.sh        # produces build/Potato.app
 open build/Potato.app
 ```
-Or run from source: `$(brew --prefix tcl-tk@8)/bin/wish8.6 potato.vfs/main.tcl`
+Or from source: `TCLLIBPATH=$(brew --prefix tcltls)/lib $(brew --prefix tcl-tk)/bin/wish potato.vfs/main.tcl`
